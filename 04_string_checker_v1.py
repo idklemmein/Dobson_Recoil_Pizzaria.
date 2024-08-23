@@ -10,5 +10,5 @@ def string_checker(question, valid_ans):
 
 # Test
 if __name__ == "__main__":
-    response = string_checker("Do you want to continue? (yes/no): ", ["yes", "no"])
+    response = string_checker("Do you want to continue? (y/n): ", ["yes", "no"])
     print(f"You selected: {response}")

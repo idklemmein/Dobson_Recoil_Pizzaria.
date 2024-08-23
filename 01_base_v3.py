@@ -28,30 +28,10 @@ def history():
     ''')
 
 
-
-
-# Display Toppings Menu
-def show_toppings_menu():
-    print('''\n
-    ***** Toppings Menu *****
-   1. Feta Cheese
-   2. Pepperoni
-   3. Mushrooms
-   4. Green Peppers
-   5. Black Olives
-   6. Italian Sausage
-   7. Red Onions
-   8. Spinach
-   9. Bacon
-   10. Tomatoes
-
-    ******************************
-    ''')
-
 # Gather Customer Information
 def get_customer_info():
     name = validate_name("Please enter your name: ")
-    phone = validate_phone("Please enter your phone number (max 14 digits): ")
+    phone = validate_phone(f"{name},in order to proceed please enter your phone number (max 14 digits): ")
     return name, phone
 
 # Validates that the name contains only letters and is not blank
@@ -100,7 +80,7 @@ large_prices = [23, 18, 22, 25, 22.50, 27, 27, 22.50, 18, 18]
 
 
 pizza_dict2 = {
-    "Pizzas": pizzas,
+    "****Pizzas****": pizzas,
     "Regular": reg_prices,
     "Large": large_prices
 }
@@ -111,7 +91,7 @@ display_menu.index +=1
 # list to display the toppings menu if the user would like toppings
 topping_options = ["Feta Cheese", "Pepperoni", "Mushrooms", "Green Peppers", "Black Olives", "Italian Sausage", "Red Onions", "Spinach", "Bacon", "Tomatoes"]
 
-#topping prices
+# A list to hold the topping prices
 topping_prices = [2, 1.5, 1.5, 2.5, 2.3, 3, 2, 1, 3, 4]
 
 toppings_menu_dict = {
@@ -149,7 +129,7 @@ topping_dict = {
     10: "Tomatoes"
 }
 
-# Prices for pizzas (regular large)
+# Prices for pizzas
 pizza_prices = {
     1: [21, 23],
     2: [15, 18],
@@ -187,9 +167,8 @@ def not_blank(question):
         else:
             return response
 
-# Checks if users enters a number between a low and high range. Returns a valid number
+# Checks if user enters a number between a low and high range. Returns a valid number
 def num_check(question, low, high):
-    error = f"Enter a number between {low} and {high}"
     while True:
         to_check = input(question)
         if to_check == "xxx":
@@ -199,11 +178,11 @@ def num_check(question, low, high):
             if response >= low and response <= high:
                 return response
             else:
-                print(error)
+                print(f"Please enter a number between {low} and {high}.")
         except ValueError:
-            print(error)
+            print("Please enter an integer.")
 
-# Main routine for ordering pizzas
+# Main routine for ordering pizza
 def order_pizza():
     order = []
     item_list = []
@@ -239,7 +218,6 @@ def order_pizza():
 # Function to order toppings
 def order_toppings(item_list, quantity_list, price_list, num_pizzas):
     toppings = []
-    topping_price = 1.5 # Example price per topping
     for i in range(num_pizzas):
         print(f"\nToppings for Pizza {i + 1}:")
         while True:
@@ -248,6 +226,7 @@ def order_toppings(item_list, quantity_list, price_list, num_pizzas):
             if topping_num == "xxx":
                 break
             elif topping_num in topping_dict:
+                topping_price = topping_prices[topping_num][0]  # Get the correct price for the topping
                 toppings.append(topping_dict[topping_num])
                 item_list.append(f"Topping for Pizza {i + 1}: {topping_dict[topping_num]}")
                 quantity_list.append(1)
@@ -256,13 +235,14 @@ def order_toppings(item_list, quantity_list, price_list, num_pizzas):
                 print("Invalid topping number, please choose a valid number between 1 and 10.")
     return toppings
 
+
 # Function to calculate total price
 def calculate_price(prices, delivery_surcharge):
     total_price = sum(prices)
     total_price += delivery_surcharge
     return total_price
 
-# Function to process payment/ cash or credit, adds surcharge if card selected
+# Function to process payment
 def process_payment(total_price):
     print(f"Your total is ${total_price:.2f}.")
     payment_method = string_checker("Would you like to pay by cash or credit? ", ["cash", "credit"])
@@ -271,7 +251,7 @@ def process_payment(total_price):
     else:
         # 5% surcharge added if credit is selected
         surcharge = total_price * 0.05
-        print(f"There is a 5% surcharge which is ${surcharge}, The total price is: ${total_price + surcharge}")
+        print(f"There is a 5% surcharge which is ${surcharge:.2f}, The total price is: ${total_price + surcharge}")
         print("Please swipe your card when the delivery arrives or at the counter upon pickup.")
 
 # Function to print the order summary
@@ -295,7 +275,7 @@ def main():
     yes_no = ["yes", "no"]
     pick_del = ["delivery", "pick up"]
 
-    want_history = string_checker("\nWould you like to learn about the history of Dobson Recoil Pizzeria? ", yes_no)
+    want_history = string_checker("\nWould you like to learn about the history of Dobson Recoil Pizzeria? (y,n): ", yes_no)
     if want_history == "yes":
         history()
 
@@ -327,7 +307,7 @@ def main():
 
         add_toppings = string_checker("\nWould you like to add toppings to your pizza(s)? ", yes_no)
         if add_toppings == "yes":
-            #show_toppings_menu()
+            # show_toppings_menu()
             print(topping_menu)
             toppings = order_toppings(item_list, quantity_list, price_list, len(order))
         else:

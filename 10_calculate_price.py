@@ -7,6 +7,6 @@ def calculate_price(prices, delivery_surcharge):
 # Test
 if __name__ == "__main__":
     price_list = [10, 20, 30] # set example of total cost after order
-    delivery_surcharge = 5 # surcharge if user pix delivery
+    delivery_surcharge = 5 # surcharge if user picks delivery
     total = calculate_price(price_list, delivery_surcharge)
     print(f"Total price: ${total}")

@@ -1,21 +1,16 @@
 # this code is used as an I. D checker for both the toppings menu and pizza menu. It checks if the user
 # has entered any number from 1-10 and it will not accept any other number
-def num_check(question, low, high):
-    error = f" Error! Please enter a number between {low} and {high}"
+def num_check(question, min_value=None, max_value=None):
     while True:
-        to_check = input(question)
-        if to_check == "xxx":
-            return to_check
         try:
-            response = int(to_check)
-            if response >= low and response <= high:
-                return response
+            response = int(input(question))
+            if (min_value is not None and response < min_value) or (max_value is not None and response > max_value):
+                print(f"Please enter a number between {min_value} and {max_value}.")
             else:
-                print(error)
+                return response
         except ValueError:
-            print(error)
+            print("Please enter an integer.")
 
-# Test
-if __name__ == "__main__":
-    number = num_check("Enter a number between 1 and 10 or xxx to finish: ", 1, 10)
-    print(f"You entered: {number}")
+#Main Routine
+
+user_order_id = num_check("Please enter the number of the pizza you want to order (1-10): ", min_value=1, max_value=10)
